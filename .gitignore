@@ -2,3 +2,4 @@ venv/
 .idea/
 src/db.sqlite3
 *__pycache__
+.tox/
