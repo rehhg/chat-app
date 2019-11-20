@@ -6,14 +6,26 @@ import Hoc from '../hoc/hoc';
 
 class Chat extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {message: ''}
+    state = { message: '' }
 
+    initialiseChat() {
         this.waitForSocketConnection(() => {
             WebSocketInstance.addCallbacks(this.setMessages.bind(this), this.addMessage.bind(this))
-            WebSocketInstance.fetchMessages(this.props.currentUser);
+            WebSocketInstance.fetchMessages(
+                this.props.username,
+                this.props.match.params.chatID
+            );
         });
+        WebSocketInstance.connect(this.props.match.params.chatID)
+    }
+
+    constructor(props) {
+        super(props);
+        this.initialiseChat();
+    }
+
+    UNSAFE_componentWillReceiveProps(newProps) {
+        this.initialiseChat();
     }
 
     waitForSocketConnection(callback) {
@@ -48,7 +60,7 @@ class Chat extends React.Component {
     sendMessageHandler = e => {
         e.preventDefault();
         const messageObject = {
-            from: 'admin',
+            from: this.props.username,
             content: this.state.message
         };
         WebSocketInstance.newChatMessage(messageObject);

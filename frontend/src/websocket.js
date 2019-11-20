@@ -14,15 +14,13 @@ class WebSocketService {
         this.socketRef = null;
     }
 
-    connect() {
-        const path = 'ws://127.0.0.1:8000/ws/chat/test/';
+    connect(chatUrl) {
+        const path = `ws://127.0.0.1:8000/ws/chat/${chatUrl}/`;
+        console.log(path);
         this.socketRef = new WebSocket(path);
         this.socketRef.onopen = () => {
             console.log('websocket open');
         };
-        this.socketNewMessage(JSON.stringify({
-            command: 'fetch_messages'
-        }))
         this.socketRef.onmessage = e => {
             this.socketNewMessage(e.data);
         }
@@ -49,12 +47,20 @@ class WebSocketService {
         }
     }
 
-    fetchMessages(username) {
-        this.sendMessage({ command: 'fetch_messages', username: username })
+    fetchMessages(username, chatId) {
+        this.sendMessage({
+            command: 'fetch_messages',
+            username: username,
+            chatId: chatId
+         });
     }
 
     newChatMessage(message) {
-        this.sendMessage({ command: 'new_message', from: message.from, message: message.content })
+        this.sendMessage({
+            command: 'new_message',
+            from: message.from,
+            message: message.content
+        });
     }
 
     addCallbacks(messagesCallback, newMessageCallback) {
