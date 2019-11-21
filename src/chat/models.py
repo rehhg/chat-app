@@ -23,7 +23,7 @@ class Message(models.Model):
 
 
 class Chat(models.Model):
-    participants = models.ManyToManyField(Contact, related_name='chats')
+    participants = models.ManyToManyField(Contact, related_name='chats',  blank=True)
     messages = models.ManyToManyField(Message, blank=True)
 
     def __str__(self):

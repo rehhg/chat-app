@@ -19,7 +19,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2017": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^7.0.0"
   },
   "dependencies": {
     "antd": "^3.25.2",
